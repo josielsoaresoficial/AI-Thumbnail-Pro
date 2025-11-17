@@ -113,6 +113,8 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+
 /* Hide Lovable badge completely */
 a[href*="lovable.dev"], 
 
