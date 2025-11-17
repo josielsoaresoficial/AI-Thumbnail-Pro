@@ -13,12 +13,29 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, Upload, X } from "lucide-react";
 
 export default function Create() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [creativity, setCreativity] = useState([50]);
   const [variations, setVariations] = useState("3");
+  const [referenceImage, setReferenceImage] = useState<string | null>(null);
+  const [similarityLevel, setSimilarityLevel] = useState("medio");
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setReferenceImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeReferenceImage = () => {
+    setReferenceImage(null);
+  };
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -96,6 +113,62 @@ export default function Create() {
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="space-y-2">
+              <Label>Imagem de Referência (Opcional)</Label>
+              {!referenceImage ? (
+                <div className="border-2 border-dashed border-border/40 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                  <input
+                    type="file"
+                    id="reference-image"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <label htmlFor="reference-image" className="cursor-pointer">
+                    <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      Clique para fazer upload de uma imagem de referência
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      A IA criará thumbnails semelhantes ao estilo desta imagem
+                    </p>
+                  </label>
+                </div>
+              ) : (
+                <div className="relative border border-border/40 rounded-lg p-2">
+                  <img
+                    src={referenceImage}
+                    alt="Referência"
+                    className="w-full h-32 object-cover rounded"
+                  />
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-3 right-3"
+                    onClick={removeReferenceImage}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {referenceImage && (
+              <div className="space-y-2">
+                <Label htmlFor="similarity">Nível de Semelhança</Label>
+                <Select value={similarityLevel} onValueChange={setSimilarityLevel}>
+                  <SelectTrigger id="similarity">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="leve">Leve - Apenas inspiração</SelectItem>
+                    <SelectItem value="medio">Médio - Estilo equilibrado</SelectItem>
+                    <SelectItem value="intenso">Intenso - Muito semelhante</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="space-y-3">
               <Label>Criatividade da IA</Label>
