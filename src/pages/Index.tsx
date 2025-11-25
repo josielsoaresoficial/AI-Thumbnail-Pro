@@ -1,5 +1,3 @@
-import Clock from "@/components/Clock";
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-green-deep to-accent flex items-center justify-center p-6 relative overflow-hidden">
@@ -11,7 +9,7 @@ const Index = () => {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 text-center space-y-12 max-w-5xl w-full">
+      <div className="relative z-10 text-center space-y-8 max-w-4xl">
         <div className="space-y-4 animate-float">
           <h1 className="text-7xl md:text-9xl font-bold text-foreground drop-shadow-2xl animate-glow">
             Verde
@@ -22,11 +20,6 @@ const Index = () => {
         <p className="text-2xl md:text-3xl text-foreground/90 font-light tracking-wide">
           Tela Verde Vibrante
         </p>
-
-        {/* Clock */}
-        <div className="flex justify-center">
-          <Clock />
-        </div>
 
         <div className="flex flex-wrap gap-4 justify-center pt-8">
           <div className="px-8 py-4 bg-foreground/10 backdrop-blur-sm border border-foreground/20 rounded-xl hover:bg-foreground/20 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
